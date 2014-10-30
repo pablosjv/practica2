@@ -9,8 +9,9 @@ import java.io.IOException;
  */
 
 public class GestorTabla extends Object{
-	
- 
+
+    protected ArchivoLH archivoLH = null;
+    protected ArbolB arbol;
   /** 
     * Crea un nuevo archivo de datos en disco, cuyo nombre sera el indicado como primer parametro del metodo con extension '.dat', y 
     * un nuevo archivo de tipo arbol B, cuyo nombre sera el indicado como primer parametro del metodo con extension '.btree', asociado 
@@ -23,7 +24,11 @@ public class GestorTabla extends Object{
     * @throws IOException Si durante la creacion de alguno de los dos ficheros se produce un error de entrada/salida.
     */		
 	public GestorTabla(String nombre, int orden, RegistroNumReg registro) throws FileNotFoundException, IOException{
-	 }
+        //Esto es porque hay que inicializar un arbol, y se le pasa el orden como parametro
+        arbol = new ArbolB (nombre+".btree",orden);
+        archivoLH = new ArchivoLH(registro, nombre+".dat");
+        //metodo que te devuelve la dir del registro, leemos registro para sacarlo (antes mirar si -1 por si no existe)
+    }
 	
   /** 
     * Abre un archivo de datos existente en disco, cuyo nombre sera el indicado como primer parametro del metodo con extension '.dat', y 
@@ -37,21 +42,26 @@ public class GestorTabla extends Object{
     * @throws IOException Si durante la apertura de alguno de los dos ficheros se produce un error de entrada/salida.
     */		
 	public GestorTabla(String nombre, String modo, RegistroNumReg registro) throws FileNotFoundException, IOException{
-	 }	
+        //Esto es porque hay que inicializar un arbol, y se le pasa el orden como parametro
+        arbol = new ArbolB (nombre+".btree",modo);
+        archivoLH = new ArchivoLH(registro, nombre+".dat", modo);
+    }
 
   /**
 	* Recupera la referencia al arbol B gestionado por esta clase.
  	* @return ArbolB Referencia al arbol B.
 	*/	
 	public ArbolB getArbolB(){
-	}
+        return arbol;
+    }
 
   /**
 	* Recupera la referencia al archivo de datos gestionado por esta clase.
  	* @return ArchivoLH Referencia al archivo de datos.
 	*/	
 	public ArchivoLH getArchivoDatos(){
-	}
+        return archivoLH;
+    }
 	
   /**
     * Busca el registro del archivo de datos cuyo campo numReg se corresponda con valorClave, empleando para la 
@@ -63,7 +73,26 @@ public class GestorTabla extends Object{
      */
 
 	public RegistroNumReg buscar(int valorClave) throws IOException{
-	}
+        //valorClave = numReg
+        //Tengo que asociar un registro con numReg=valorClave
+        //si uso el metodo buscar(Clave) este me devuelve la posicion del registro con esa clave.
+        //Lo que me piden es buscar valorClave que estará en el arbol
+
+        RegistroNumReg RG = null;
+        if(!arbol.vacio())
+        {
+            Clave miClave = new Clave(valorClave);
+            int resul = arbol.buscar(miClave);
+            if  (resul!=-1)
+            {
+                arbol.leerRegistro(resul);
+                RG = (RegistroNumReg) arbol.getRegistro();
+            }
+        }
+
+        return RG;
+
+    }
 
   /** Borra el registro del archivo de datos cuyo campo numReg se corresponda con valorClave, actualiza 
     * el arbol B eliminando la clave correspondiente y devuelve true. Si no existe ningun registro con numReg 
@@ -73,6 +102,21 @@ public class GestorTabla extends Object{
     * @throws IOException Si durante la ejecucion del metodo se produce un error de entrada/salida.
     */
 	public boolean borrar(int valorClave)throws IOException{
+        boolean resul = false;
+
+        if(!arbol.vacio())
+        {
+            Clave miClave = new Clave(valorClave);
+            int posClave = arbol.buscar(miClave);
+            if  (posClave!=-1)
+            {
+                resul = true;
+                arbol.borrar(miClave);
+                archivoLH.borrarRegistro(valorClave);
+            }
+        }
+
+        return resul;
 	}
 	
   /** Inserta un nuevo registro en el archivo de datos. Si el campo numReg del nuevo registro ya esta 
@@ -84,6 +128,29 @@ public class GestorTabla extends Object{
     * @throws IOException Si durante la ejecucion del metodo se produce un error de entrada/salida.
    */
 	public boolean insertar(RegistroNumReg registro)throws IOException{
+        /*
+		 * Obtenemos el numero de registro del registro (parametro)
+		 * Creamos una clave con ese valor para buscarlo en el árbol para saber si ya está (y en ese caso no hacer nada)
+		 * Si no está guardamos el registro en nuestra prop registro para escribirlo en el archivoLH
+		 * Obtenemos la posición de donde lo hemos insertado y creamos una nueva clave con esa posición y el valor de la clave para insertarlo en el arbol
+		 */
+        boolean resul = false;
+        if(!arbol.vacio())
+        {
+            int clave = registro.getNumReg();
+            Clave miClave = new Clave(clave);
+            int posClave = arbol.buscar(miClave);
+            if  (posClave==-1)
+            {
+                archivoLH.setRegistro(registro);
+                int pos = this.archivoLH.escribirRegistro();
+                Clave clave_a_arbol = new Clave(clave,pos);
+                arbol.insertar(clave_a_arbol);
+                resul = true;
+            }
+
+        }
+        return resul;
 	}
 
 	 /**
