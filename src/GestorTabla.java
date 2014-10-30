@@ -24,6 +24,7 @@ public class GestorTabla extends Object{
     * @throws IOException Si durante la creacion de alguno de los dos ficheros se produce un error de entrada/salida.
     */		
 	public GestorTabla(String nombre, int orden, RegistroNumReg registro) throws FileNotFoundException, IOException{
+
         //Esto es porque hay que inicializar un arbol, y se le pasa el orden como parametro
         arbol = new ArbolB (nombre+".btree",orden);
         archivoLH = new ArchivoLH(registro, nombre+".dat");
@@ -42,6 +43,7 @@ public class GestorTabla extends Object{
     * @throws IOException Si durante la apertura de alguno de los dos ficheros se produce un error de entrada/salida.
     */		
 	public GestorTabla(String nombre, String modo, RegistroNumReg registro) throws FileNotFoundException, IOException{
+
         //Esto es porque hay que inicializar un arbol, y se le pasa el orden como parametro
         arbol = new ArbolB (nombre+".btree",modo);
         archivoLH = new ArchivoLH(registro, nombre+".dat", modo);
@@ -135,8 +137,8 @@ public class GestorTabla extends Object{
 		 * Obtenemos la posición de donde lo hemos insertado y creamos una nueva clave con esa posición y el valor de la clave para insertarlo en el arbol
 		 */
         boolean resul = false;
-        if(!arbol.vacio())
-        {
+        //if(!arbol.vacio())
+        //{
             int clave = registro.getNumReg();
             Clave miClave = new Clave(clave);
             int posClave = arbol.buscar(miClave);
@@ -148,8 +150,7 @@ public class GestorTabla extends Object{
                 arbol.insertar(clave_a_arbol);
                 resul = true;
             }
-
-        }
+        //}
         return resul;
 	}
 
@@ -160,6 +161,9 @@ public class GestorTabla extends Object{
            * @throws IOException Si durante la ejecucion del metodo se produce un error de entrada/salida.
 	*/	
 	public void cerrar()throws IOException{
+
+        archivoLH.cerrarArchivo();
+        arbol.cerrarArchivo();
 	}	
 	
 
