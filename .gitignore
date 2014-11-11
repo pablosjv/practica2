@@ -23,3 +23,5 @@ hs_err_pid*
 /.idea/vcs.xml
 /.idea/workspace.xml
 /practica 2 git.iml
+/.idea/TGIP2.iml
+/.gitignore
