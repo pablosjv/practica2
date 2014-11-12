@@ -10,8 +10,8 @@ import java.io.IOException;
 
 public class GestorTabla extends Object{
 
-    protected ArchivoLH archivoLH = null;
-    protected ArbolB arbol;
+    private ArchivoLH archivoLH = null;
+    private ArbolB arbol;
   /** 
     * Crea un nuevo archivo de datos en disco, cuyo nombre sera el indicado como primer parametro del metodo con extension '.dat', y 
     * un nuevo archivo de tipo arbol B, cuyo nombre sera el indicado como primer parametro del metodo con extension '.btree', asociado 
@@ -126,7 +126,7 @@ public class GestorTabla extends Object{
 	public boolean insertar(RegistroNumReg registro)throws IOException{
 
         boolean resul = false;
-    
+
         int clave = registro.getNumReg();
         Clave miClave = new Clave(clave);
         int posClave = arbol.buscar(miClave);

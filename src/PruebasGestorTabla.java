@@ -30,7 +30,7 @@ public class PruebasGestorTabla extends Object{
         //Introducimos un registro para comprobar que se vuelve a crear.
         GestorTabla gt = new GestorTabla("gestorPrueba",1,registro);
         System.out.println("Creacion de tabla");
-        gt.arbol.volcar();
+        gt.getArbolB().volcar();
 
 
         registro = (RegistroLibro)archivoLibro.getRegistro();
@@ -43,7 +43,7 @@ public class PruebasGestorTabla extends Object{
         archivoLibro.cerrarArchivo();
         System.out.println("Introducimos R1");
         gt.insertar(registro);
-        gt.arbol.volcar();
+        gt.getArbolB().volcar();
         System.out.println("\n");
 
 
@@ -52,14 +52,14 @@ public class PruebasGestorTabla extends Object{
         //Introducimos un registro para comprobar que se vuelve a crear.
         GestorTabla gtAb = new GestorTabla("gestorPrueba","r",registro);
         System.out.println("Apertura de tabla existe");
-        gtAb.arbol.volcar();
+        gtAb.getArbolB().volcar();
         System.out.println("\n");
 
         //Prueba apertura de archivos que no existe
         //Introducimos un registro para comprobar que se vuelve a crear.
         //gtAb = new GestorTabla("gestorPruebaNO","r",registro);
         System.out.println("Apertura de tabla no existe");
-        gtAb.arbol.volcar();
+        gtAb.getArbolB().volcar();
         System.out.println("\n");
 
 
@@ -92,7 +92,7 @@ public class PruebasGestorTabla extends Object{
 
         gt.insertar(registro);
         System.out.println("Introducimos R2");
-        gt.arbol.volcar();
+        gt.getArbolB().volcar();
         System.out.println("\n");
 
 
@@ -105,7 +105,7 @@ public class PruebasGestorTabla extends Object{
         registro.setNumPaginas(100);
         gt.insertar(registro);
         System.out.println("Introducimos R3 en una posicion borrada");
-        gt.arbol.volcar();
+        gt.getArbolB().volcar();
         System.out.println("\n");
 
         //Prueba de inserccion de registro en una posicion existente
@@ -117,36 +117,36 @@ public class PruebasGestorTabla extends Object{
         registro.setNumPaginas(100);
         gt.insertar(registro);
         System.out.println("Introducimos R4 en una posicion existente");
-        gt.arbol.volcar();
+        gt.getArbolB().volcar();
         System.out.println("\n");
 
         //Prueba de borrado de clave que existe
         System.out.println("Volcado antes de borrar");
-        gt.arbol.volcar();
+        gt.getArbolB().volcar();
         System.out.println("\n");
 
 
         System.out.println("Volcado despues de borrar numreg=4 (existe)");
         gt.borrar(4);
-        gt.arbol.volcar();
+        gt.getArbolB().volcar();
         System.out.println("\n");
 
 
         //Prueba de borrado de clave que no existe
         System.out.println("Volcado antes de borrar");
-        gt.arbol.volcar();
+        gt.getArbolB().volcar();
         System.out.println("\n");
 
         System.out.println("Volcado despues de borrar numreg=59 (no existe)");
         gt.borrar(59);
-        gt.arbol.volcar();
+        gt.getArbolB().volcar();
         System.out.println("\n");
 
 
         //Prueba de borrado de clave no existe pero ya esta borrado
         System.out.println("Volcado despues de borrar numreg=4 (existe pero ya esta borrado)");
         gt.borrar(59);
-        gt.arbol.volcar();
+        gt.getArbolB().volcar();
         System.out.println("\n");
 
         archivoLibro.cerrarArchivo();
