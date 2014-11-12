@@ -15,54 +15,142 @@ public class PruebasGestorTabla extends Object{
 	/**
 	 * Permite probar la clase GestorTabla.
 	 */
-	public PruebasGestorTabla(){
-	    /**
-	     * Deberan probarse los siguientes metodos en las situaciones indicadas
-	     * 	- constructor de GestorTabla que CREA un archivo de registros de tipo RegistroLibro y su arbolB asociado. Situaciones:
-	     * 		- ninguno de los dos ficheros existe. Validar que los crea, que el archivo de datos contiene el registro 0 completo (con todos los
-	     *        campos de un registro de tipo RegistroLibro y con el campo control a -1) y que el archivo que mantiene el 
-	     *        arbol B contiene el registro 0 completo (con el campo control a -1, con el orden indicado y con la pagina raiz en el 
-	     *        registro 1) y el registro 1 sin claves.
-	     *      - alguno de los dos ficheros existe (o los dos). Validar que borra su contenido y que el nuevo contenido es igual que en 
-	     *        la situacion expuesta en el punto anterior.
-	     *  - constructor de GestorTabla que ABRE un archivo de registros de tipo RegistroLibro y su arbolB asociado. Situaciones:
-	     *  	- Los dos ficheros existen. Validar que su contenido es exactamente el mismo que la ultima vez que 
-	     *        se trabajo con ellos.
-	     *      - alguno de los dos ficheros no existe. Debe saltar la excepcion FileNotFoundException que debera capturarse e
-	     *        indicar por la consola esta situacion mediante un mensaje de error
-	     *  - getArbolB y getArchivoDatos se validaran al emplearlos para conseguir volcar por consola los ficheros que manejan ambos
-	     *  - buscar. Situaciones:
-	     *      - buscar un registro de Libro que exista (util). Validar que el contenido del registro obtenido por el metodo es el del registro buscado
-	     *      - buscar un registro de Libro cuya clave no exista en ningun registro del archivo de datos (ni si quiera en los registros marcados como borrados). 
-	     *        Validar que devuelve null.
-	     *      - buscar un registro de Libro cuya clave exista en algun registro del archivo de datos, pero asignada a un registro marcado como borrado 
-	     *        Validar que devuelve null.
-	     *  - insertar. Situaciones:
-	     *  	- insertar un registro de Libro que tenga asignada una clave que no exista en ningun registro del archivo de datos (ni siquiera en los marcados como borrados).
-	     *        Validar que el registro se ha insertado en el archivo de Libros y que la clave se ha creado en el arbol correctamente (con los campos valor y posicion
-	     *        correctos). Validar que devuelve true.
-	     *      - insertar un registro de Libro que tenga asignada una clave que exista en un registro del archivo de datos, pero asignada a un registro marcado como borrado.
-	     *        Validar que el registro se ha insertado en el archivo de Libros y que la clave se ha creado en el arbol correctamente (con los campos valor y posicion
-	     *        correctos). Validar que devuelve true.
-	     *      - insertar un registro de Libro que tenga asignada una clave que exista en un registro del archivo de datos, asignada a un registro util (no borrado).
-	     *        Validar que no se realiza ninguna escritura en ninguno de los dos ficheros. Validar que devuelve false.
-	     *  - borrar. Situaciones:
-	     *      - borrar un registro de Libro que exista. Validar que en el archivo de registros de Libros el registro se ha aniadido a la lista de huecos. Validar que
-	     *        en el archivo del arbol B se ha eliminado la clave de ese registro. Validar que devuelve true.
-	     *      - borrar un registro de Libro cuya clave no exista en ningun registro del archivo de datos (ni si quiera en los registros marcados como borrados). 
-	     *        Validar que devuelve false y que no se ha modificado nada en ninguno de los dos archivos.
-	     *      - borrar un registro de Libro cuya clave exista en algun registro del archivo de datos, pero asignada a un registro marcado como borrado 
-	     *        Validar que devuelve false y que no se ha modificado nada en ninguno de los dos archivos.
-	     *  - cerrar. Llamar a este metodo y comprobar que si posteriormente se intenta realizar alguna otra operacion (buscar, insertar, borrar) salta la excepcion IOException (se debera capturar)
-	     *  
-	     *  Toda esta funcionalidad debera validarse tambien para un objeto de tipo GestorTabla que maneje registros de tipo RegistroBiblioteca.
-	     *         
-	     */
+	public PruebasGestorTabla() throws IOException {
+
+        RegistroLibro registroLibro = new RegistroLibro();
+
+        ArchivoLH archivoLibro = new ArchivoLH(registroLibro,"libro.dat");
+        System.out.println("********* volcado del contenido del archivo al crearlo **********************");
+        archivoLibro.volcar();
+        System.out.println("*****************************************************************************");
+        System.out.println();
+
+        RegistroLibro registro = (RegistroLibro)archivoLibro.getRegistro();
+
+        registro = (RegistroLibro)archivoLibro.getRegistro();
+        registro.setControl(RegistroLH.REGISTRO_OCUPADO);
+        registro.setNumReg(4);
+        registro.setTitulo("Harry Potter");
+        registro.setTipo("aventura");
+        registro.setNumPaginas(100);
+        archivoLibro.escribirRegistro();
+        archivoLibro.cerrarArchivo();
+        System.out.println("******** registro 1*********");
+
+        GestorTabla gt = new GestorTabla("gestorPrueba",1,registro);
+        gt.insertar(registro);
+        gt.arbol.volcar();
+
+
+        //Registro 2
+        registro = (RegistroLibro)archivoLibro.getRegistro();
+        registro.setControl(RegistroLH.REGISTRO_OCUPADO);
+        registro.setNumReg(5);
+        registro.setTitulo("Grimpow");
+        registro.setTipo("magia");
+        registro.setNumPaginas(100);
+
+        gt.insertar(registro);
+        System.out.println("******** registro 2 despues de insertar*********");
+        gt.arbol.volcar();
+
+
+
+        //Registro 3
+        registro = (RegistroLibro)archivoLibro.getRegistro();
+        registro.setControl(RegistroLH.REGISTRO_OCUPADO);
+        registro.setNumReg(6);
+        registro.setTitulo("La cabaña del lago");
+        registro.setTipo("policiaca");
+        registro.setNumPaginas(100);
+        gt.insertar(registro);
+        System.out.println("******** registro 3*********");
+        gt.arbol.volcar();
+
+
+        //Registro 4
+        registro = (RegistroLibro)archivoLibro.getRegistro();
+        registro.setControl(RegistroLH.REGISTRO_OCUPADO);
+        registro.setNumReg(50);
+        registro.setTitulo("El sotano");
+        registro.setTipo("terror");
+        registro.setNumPaginas(100);
+        gt.insertar(registro);
+        System.out.println("******** registro 4*********");
+        gt.arbol.volcar();
+
+
+        //Registro 5
+        registro = (RegistroLibro)archivoLibro.getRegistro();
+        registro.setControl(RegistroLH.REGISTRO_OCUPADO);
+        registro.setNumReg(25);
+        registro.setTitulo("This is crazy");
+        registro.setTipo("aventuras");
+        registro.setNumPaginas(100);
+        gt.insertar(registro);
+        System.out.println("******** registro 5*********");
+        gt.arbol.volcar();
+
+
+        System.out.println("*******Registro buscado numreg=50*********");
+        RegistroNumReg nombre = gt.buscar(50);
+        System.out.println(nombre);
+
+        System.out.println("**********Volcado antes de borrar***********");
+        gt.arbol.volcar();
+        System.out.println("********Volcado despues de borrar numreg=69**********");
+        gt.borrar(25);
+        gt.arbol.volcar();
+
+
+        /**
+         * Deberan probarse los siguientes metodos en las situaciones indicadas
+         * 	- constructor de GestorTabla que CREA un archivo de registros de tipo RegistroLibro y su arbolB asociado. Situaciones:
+         * 		- ninguno de los dos ficheros existe. Validar que los crea, que el archivo de datos contiene el registro 0 completo (con todos los
+         *        campos de un registro de tipo RegistroLibro y con el campo control a -1) y que el archivo que mantiene el
+         *        arbol B contiene el registro 0 completo (con el campo control a -1, con el orden indicado y con la pagina raiz en el
+         *        registro 1) y el registro 1 sin claves.
+         *      - alguno de los dos ficheros existe (o los dos). Validar que borra su contenido y que el nuevo contenido es igual que en
+         *        la situacion expuesta en el punto anterior.
+         *  - constructor de GestorTabla que ABRE un archivo de registros de tipo RegistroLibro y su arbolB asociado. Situaciones:
+         *  	- Los dos ficheros existen. Validar que su contenido es exactamente el mismo que la ultima vez que
+         *        se trabajo con ellos.
+         *      - alguno de los dos ficheros no existe. Debe saltar la excepcion FileNotFoundException que debera capturarse e
+         *        indicar por la consola esta situacion mediante un mensaje de error
+         *  - getArbolB y getArchivoDatos se validaran al emplearlos para conseguir volcar por consola los ficheros que manejan ambos
+         *  - buscar. Situaciones:
+         *      - buscar un registro de Libro que exista (util). Validar que el contenido del registro obtenido por el metodo es el del registro buscado
+         *      - buscar un registro de Libro cuya clave no exista en ningun registro del archivo de datos (ni si quiera en los registros marcados como borrados).
+         *        Validar que devuelve null.
+         *      - buscar un registro de Libro cuya clave exista en algun registro del archivo de datos, pero asignada a un registro marcado como borrado
+         *        Validar que devuelve null.
+         *  - insertar. Situaciones:
+         *  	- insertar un registro de Libro que tenga asignada una clave que no exista en ningun registro del archivo de datos (ni siquiera en los marcados como borrados).
+         *        Validar que el registro se ha insertado en el archivo de Libros y que la clave se ha creado en el arbol correctamente (con los campos valor y posicion
+         *        correctos). Validar que devuelve true.
+         *      - insertar un registro de Libro que tenga asignada una clave que exista en un registro del archivo de datos, pero asignada a un registro marcado como borrado.
+         *        Validar que el registro se ha insertado en el archivo de Libros y que la clave se ha creado en el arbol correctamente (con los campos valor y posicion
+         *        correctos). Validar que devuelve true.
+         *      - insertar un registro de Libro que tenga asignada una clave que exista en un registro del archivo de datos, asignada a un registro util (no borrado).
+         *        Validar que no se realiza ninguna escritura en ninguno de los dos ficheros. Validar que devuelve false.
+         *  - borrar. Situaciones:
+         *      - borrar un registro de Libro que exista. Validar que en el archivo de registros de Libros el registro se ha aniadido a la lista de huecos. Validar que
+         *        en el archivo del arbol B se ha eliminado la clave de ese registro. Validar que devuelve true.
+         *      - borrar un registro de Libro cuya clave no exista en ningun registro del archivo de datos (ni si quiera en los registros marcados como borrados).
+         *        Validar que devuelve false y que no se ha modificado nada en ninguno de los dos archivos.
+         *      - borrar un registro de Libro cuya clave exista en algun registro del archivo de datos, pero asignada a un registro marcado como borrado
+         *        Validar que devuelve false y que no se ha modificado nada en ninguno de los dos archivos.
+         *  - cerrar. Llamar a este metodo y comprobar que si posteriormente se intenta realizar alguna otra operacion (buscar, insertar, borrar) salta la excepcion IOException (se debera capturar)
+         *
+         *  Toda esta funcionalidad debera validarse tambien para un objeto de tipo GestorTabla que maneje registros de tipo RegistroBiblioteca.
+         *
+         */
 		
 
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		new PruebasGestorTabla();
+        System.out.print("holi");
 	}
 }

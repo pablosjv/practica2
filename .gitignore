@@ -25,3 +25,8 @@ hs_err_pid*
 /practica 2 git.iml
 /.idea/TGIP2.iml
 /.gitignore
+/gestorPrueba.dat
+/libro.dat
+/TGIP2.iml
+/gestorPrueba.btree
+/.idea/
