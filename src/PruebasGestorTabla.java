@@ -27,6 +27,13 @@ public class PruebasGestorTabla extends Object{
 
         RegistroLibro registro = (RegistroLibro)archivoLibro.getRegistro();
 
+        //Prueba creacion de archivos
+        //Introducimos un registro para comprobar que se vuelve a crear.
+        GestorTabla gt = new GestorTabla("gestorPrueba",1,registro);
+        System.out.println("**************************Creacion de tabla**********************************");
+        gt.arbol.volcar();
+
+
         registro = (RegistroLibro)archivoLibro.getRegistro();
         registro.setControl(RegistroLH.REGISTRO_OCUPADO);
         registro.setNumReg(4);
@@ -35,12 +42,22 @@ public class PruebasGestorTabla extends Object{
         registro.setNumPaginas(100);
         archivoLibro.escribirRegistro();
         archivoLibro.cerrarArchivo();
-        System.out.println("******** registro 1*********");
-
-        GestorTabla gt = new GestorTabla("gestorPrueba",1,registro);
+        System.out.println("**************************Introducimos R1***********************************");
         gt.insertar(registro);
         gt.arbol.volcar();
 
+
+        //Prueba apertura de archivos que existe
+        //Introducimos un registro para comprobar que se vuelve a crear.
+        GestorTabla gtAb = new GestorTabla("gestorPrueba","r",registro);
+        System.out.println("**************************Apertura de tabla existe***************************");
+        gtAb.arbol.volcar();
+
+        //Prueba apertura de archivos que no existe
+        //Introducimos un registro para comprobar que se vuelve a crear.
+        gtAb = new GestorTabla("gestorPruebaNO","r",registro);
+        System.out.println("**************************Apertura de tabla no existe************************");
+        gtAb.arbol.volcar();
 
         //Registro 2
         registro = (RegistroLibro)archivoLibro.getRegistro();
@@ -51,7 +68,7 @@ public class PruebasGestorTabla extends Object{
         registro.setNumPaginas(100);
 
         gt.insertar(registro);
-        System.out.println("******** registro 2 despues de insertar*********");
+        System.out.println("**************************Introducimos R2***********************************");
         gt.arbol.volcar();
 
 
@@ -64,7 +81,7 @@ public class PruebasGestorTabla extends Object{
         registro.setTipo("policiaca");
         registro.setNumPaginas(100);
         gt.insertar(registro);
-        System.out.println("******** registro 3*********");
+        System.out.println("**************************Introducimos R3***********************************");
         gt.arbol.volcar();
 
 
@@ -76,7 +93,7 @@ public class PruebasGestorTabla extends Object{
         registro.setTipo("terror");
         registro.setNumPaginas(100);
         gt.insertar(registro);
-        System.out.println("******** registro 4*********");
+        System.out.println("**************************Introducimos R4***********************************");
         gt.arbol.volcar();
 
 
@@ -88,11 +105,11 @@ public class PruebasGestorTabla extends Object{
         registro.setTipo("aventuras");
         registro.setNumPaginas(100);
         gt.insertar(registro);
-        System.out.println("******** registro 5*********");
+        System.out.println("**************************Introducimos R5***********************************");
         gt.arbol.volcar();
 
 
-        System.out.println("*******Registro buscado numreg=50*********");
+        System.out.println("**************************Buscando registro 50************************");
         RegistroNumReg nombre = gt.buscar(50);
         System.out.println(nombre);
 
@@ -110,20 +127,27 @@ public class PruebasGestorTabla extends Object{
          *        campos de un registro de tipo RegistroLibro y con el campo control a -1) y que el archivo que mantiene el
          *        arbol B contiene el registro 0 completo (con el campo control a -1, con el orden indicado y con la pagina raiz en el
          *        registro 1) y el registro 1 sin claves.
+         *          ok
          *      - alguno de los dos ficheros existe (o los dos). Validar que borra su contenido y que el nuevo contenido es igual que en
          *        la situacion expuesta en el punto anterior.
+         *          ok
          *  - constructor de GestorTabla que ABRE un archivo de registros de tipo RegistroLibro y su arbolB asociado. Situaciones:
          *  	- Los dos ficheros existen. Validar que su contenido es exactamente el mismo que la ultima vez que
          *        se trabajo con ellos.
+         *          ok
          *      - alguno de los dos ficheros no existe. Debe saltar la excepcion FileNotFoundException que debera capturarse e
          *        indicar por la consola esta situacion mediante un mensaje de error
+         *          ok
          *  - getArbolB y getArchivoDatos se validaran al emplearlos para conseguir volcar por consola los ficheros que manejan ambos
          *  - buscar. Situaciones:
          *      - buscar un registro de Libro que exista (util). Validar que el contenido del registro obtenido por el metodo es el del registro buscado
+         *
          *      - buscar un registro de Libro cuya clave no exista en ningun registro del archivo de datos (ni si quiera en los registros marcados como borrados).
          *        Validar que devuelve null.
+         *
          *      - buscar un registro de Libro cuya clave exista en algun registro del archivo de datos, pero asignada a un registro marcado como borrado
          *        Validar que devuelve null.
+         *
          *  - insertar. Situaciones:
          *  	- insertar un registro de Libro que tenga asignada una clave que no exista en ningun registro del archivo de datos (ni siquiera en los marcados como borrados).
          *        Validar que el registro se ha insertado en el archivo de Libros y que la clave se ha creado en el arbol correctamente (con los campos valor y posicion
@@ -150,7 +174,12 @@ public class PruebasGestorTabla extends Object{
 	}
 	
 	public static void main(String[] args) throws IOException {
-		new PruebasGestorTabla();
-        System.out.print("holi");
+        try {
+            new PruebasGestorTabla();
+        }catch (IOException ioe){
+
+        System.out.println("Error de entrada/salida sobre archivoLibros: "+ioe.getMessage());
+    }
+
 	}
 }

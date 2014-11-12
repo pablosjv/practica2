@@ -24,10 +24,10 @@ public class GestorTabla extends Object{
     * @throws IOException Si durante la creacion de alguno de los dos ficheros se produce un error de entrada/salida.
     */		
 	public GestorTabla(String nombre, int orden, RegistroNumReg registro) throws FileNotFoundException, IOException{
-
+        //Crear archivo
         //Esto es porque hay que inicializar un arbol, y se le pasa el orden como parametro
-        arbol = new ArbolB (nombre+".btree",orden);
-        archivoLH = new ArchivoLH(registro, nombre+".dat");
+        arbol = new ArbolB ( nombre + ".btree", orden );
+        archivoLH = new ArchivoLH(registro, nombre + ".dat");
         //metodo que te devuelve la dir del registro, leemos registro para sacarlo (antes mirar si -1 por si no existe)
     }
 	
@@ -43,7 +43,7 @@ public class GestorTabla extends Object{
     * @throws IOException Si durante la apertura de alguno de los dos ficheros se produce un error de entrada/salida.
     */		
 	public GestorTabla(String nombre, String modo, RegistroNumReg registro) throws FileNotFoundException, IOException{
-
+        //Abrir archivo
         //Esto es porque hay que inicializar un arbol, y se le pasa el orden como parametro
         arbol = new ArbolB (nombre+".btree",modo);
         archivoLH = new ArchivoLH(registro, nombre+".dat", modo);
