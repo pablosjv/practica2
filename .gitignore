@@ -23,14 +23,13 @@ hs_err_pid*
 /.idea/vcs.xml
 /.idea/workspace.xml
 /practica 2 git.iml
-/.idea/TGIP2.iml
-/.gitignore
-/gestorPrueba.dat
+/arbolOrden2.txt
 /libro.dat
-/TGIP2.iml
+/gestorPrueba123.dat
+/gestorPrueba123.btree
+/gestorPrueba1.dat
+/gestorPrueba1.btree
+/gestorPrueba.dat
 /gestorPrueba.btree
 /.idea/
-/gestorPrueba1.btree
-/gestorPrueba1.dat
-/gestorPrueba123.btree
-/gestorPrueba123.dat
+/TGIP2.iml
