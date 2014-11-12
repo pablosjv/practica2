@@ -55,7 +55,7 @@ public class PruebasGestorTabla extends Object{
 
         //Prueba apertura de archivos que no existe
         //Introducimos un registro para comprobar que se vuelve a crear.
-        gtAb = new GestorTabla("gestorPruebaNO","r",registro);
+        //gtAb = new GestorTabla("gestorPruebaNO","r",registro);
         System.out.println("**************************Apertura de tabla no existe************************");
         gtAb.arbol.volcar();
 
@@ -108,9 +108,9 @@ public class PruebasGestorTabla extends Object{
         System.out.println("**************************Introducimos R5***********************************");
         gt.arbol.volcar();
 
-
+        //Prueba busqueda de registro util.
         System.out.println("**************************Buscando registro 50************************");
-        RegistroNumReg nombre = gt.buscar(50);
+        RegistroNumReg nombre = gt.buscar(4);
         System.out.println(nombre);
 
         System.out.println("**********Volcado antes de borrar***********");
