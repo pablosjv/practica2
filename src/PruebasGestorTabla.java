@@ -20,17 +20,16 @@ public class PruebasGestorTabla extends Object{
         RegistroLibro registroLibro = new RegistroLibro();
 
         ArchivoLH archivoLibro = new ArchivoLH(registroLibro,"libro.dat");
-        System.out.println("********* volcado del contenido del archivo al crearlo **********************");
+        System.out.println("Volcado del contenido del archivo al crearlo ");
         archivoLibro.volcar();
-        System.out.println("*****************************************************************************");
-        System.out.println();
+        System.out.println("\n");
 
         RegistroLibro registro = (RegistroLibro)archivoLibro.getRegistro();
 
         //Prueba creacion de archivos
         //Introducimos un registro para comprobar que se vuelve a crear.
         GestorTabla gt = new GestorTabla("gestorPrueba",1,registro);
-        System.out.println("**************************Creacion de tabla**********************************");
+        System.out.println("Creacion de tabla");
         gt.arbol.volcar();
 
 
@@ -42,23 +41,48 @@ public class PruebasGestorTabla extends Object{
         registro.setNumPaginas(100);
         archivoLibro.escribirRegistro();
         archivoLibro.cerrarArchivo();
-        System.out.println("**************************Introducimos R1***********************************");
+        System.out.println("Introducimos R1");
         gt.insertar(registro);
         gt.arbol.volcar();
+        System.out.println("\n");
+
 
 
         //Prueba apertura de archivos que existe
         //Introducimos un registro para comprobar que se vuelve a crear.
         GestorTabla gtAb = new GestorTabla("gestorPrueba","r",registro);
-        System.out.println("**************************Apertura de tabla existe***************************");
+        System.out.println("Apertura de tabla existe");
         gtAb.arbol.volcar();
+        System.out.println("\n");
 
         //Prueba apertura de archivos que no existe
         //Introducimos un registro para comprobar que se vuelve a crear.
         //gtAb = new GestorTabla("gestorPruebaNO","r",registro);
-        System.out.println("**************************Apertura de tabla no existe************************");
+        System.out.println("Apertura de tabla no existe");
         gtAb.arbol.volcar();
+        System.out.println("\n");
 
+
+        //Prueba busqueda de registro util.
+        System.out.println("Buscando registro 4");
+        RegistroNumReg nombre = gt.buscar(4);
+        System.out.println("Resultado: " + nombre);
+        System.out.println("\n");
+
+        //Prueba busqueda de registro que no existe.
+        System.out.println("Buscando registro 13");
+        nombre = gt.buscar(13);
+        System.out.println("Resultado: " + nombre);
+        System.out.println("\n");
+
+        //Prueba busqueda de registro que no existe.
+        System.out.println("Buscando registro borrado");
+        gt.borrar(4);
+        nombre = gt.buscar(4);
+        System.out.println("Resultado: " + nombre);
+        System.out.println("\n");
+
+        //Prueba de inserccion de registro
         //Registro 2
         registro = (RegistroLibro)archivoLibro.getRegistro();
         registro.setControl(RegistroLH.REGISTRO_OCUPADO);
@@ -68,56 +92,65 @@ public class PruebasGestorTabla extends Object{
         registro.setNumPaginas(100);
 
         gt.insertar(registro);
-        System.out.println("**************************Introducimos R2***********************************");
+        System.out.println("Introducimos R2");
         gt.arbol.volcar();
+        System.out.println("\n");
 
 
-
+        //Prueba de inserccion de registro en una posicion borrada
         //Registro 3
         registro = (RegistroLibro)archivoLibro.getRegistro();
         registro.setControl(RegistroLH.REGISTRO_OCUPADO);
-        registro.setNumReg(6);
+        registro.setNumReg(4);
         registro.setTitulo("La cabaña del lago");
         registro.setTipo("policiaca");
         registro.setNumPaginas(100);
         gt.insertar(registro);
-        System.out.println("**************************Introducimos R3***********************************");
+        System.out.println("Introducimos R3 en una posicion borrada");
         gt.arbol.volcar();
+        System.out.println("\n");
 
-
+        //Prueba de inserccion de registro en una posicion existente
         //Registro 4
         registro = (RegistroLibro)archivoLibro.getRegistro();
         registro.setControl(RegistroLH.REGISTRO_OCUPADO);
-        registro.setNumReg(50);
+        registro.setNumReg(4);
         registro.setTitulo("El sotano");
         registro.setTipo("terror");
         registro.setNumPaginas(100);
         gt.insertar(registro);
-        System.out.println("**************************Introducimos R4***********************************");
+        System.out.println("Introducimos R4 en una posicion existente");
         gt.arbol.volcar();
+        System.out.println("\n");
+
+        //Prueba de borrado de clave que existe
+        System.out.println("Volcado antes de borrar");
+        gt.arbol.volcar();
+        System.out.println("\n");
 
 
-        //Registro 5
-        registro = (RegistroLibro)archivoLibro.getRegistro();
-        registro.setControl(RegistroLH.REGISTRO_OCUPADO);
-        registro.setNumReg(25);
-        registro.setTitulo("This is crazy");
-        registro.setTipo("aventuras");
-        registro.setNumPaginas(100);
-        gt.insertar(registro);
-        System.out.println("**************************Introducimos R5***********************************");
+        System.out.println("Volcado despues de borrar numreg=4 (existe)");
+        gt.borrar(4);
         gt.arbol.volcar();
+        System.out.println("\n");
 
-        //Prueba busqueda de registro util.
-        System.out.println("**************************Buscando registro 50************************");
-        RegistroNumReg nombre = gt.buscar(50);
-        System.out.println(nombre);
 
-        System.out.println("**********Volcado antes de borrar***********");
+        //Prueba de borrado de clave que no existe
+        System.out.println("Volcado antes de borrar");
         gt.arbol.volcar();
-        System.out.println("********Volcado despues de borrar numreg=69**********");
-        gt.borrar(25);
+        System.out.println("\n");
+
+        System.out.println("Volcado despues de borrar numreg=59 (no existe)");
+        gt.borrar(59);
         gt.arbol.volcar();
+        System.out.println("\n");
+
+
+        //Prueba de borrado de clave no existe pero ya esta borrado
+        System.out.println("Volcado despues de borrar numreg=4 (existe pero ya esta borrado)");
+        gt.borrar(59);
+        gt.arbol.volcar();
+        System.out.println("\n");
 
 
         /**
@@ -141,29 +174,35 @@ public class PruebasGestorTabla extends Object{
          *  - getArbolB y getArchivoDatos se validaran al emplearlos para conseguir volcar por consola los ficheros que manejan ambos
          *  - buscar. Situaciones:
          *      - buscar un registro de Libro que exista (util). Validar que el contenido del registro obtenido por el metodo es el del registro buscado
-         *
+         *          ok
          *      - buscar un registro de Libro cuya clave no exista en ningun registro del archivo de datos (ni si quiera en los registros marcados como borrados).
          *        Validar que devuelve null.
-         *
+         *          ok
          *      - buscar un registro de Libro cuya clave exista en algun registro del archivo de datos, pero asignada a un registro marcado como borrado
          *        Validar que devuelve null.
-         *
+         *          ok
          *  - insertar. Situaciones:
          *  	- insertar un registro de Libro que tenga asignada una clave que no exista en ningun registro del archivo de datos (ni siquiera en los marcados como borrados).
          *        Validar que el registro se ha insertado en el archivo de Libros y que la clave se ha creado en el arbol correctamente (con los campos valor y posicion
          *        correctos). Validar que devuelve true.
+         *          ok
          *      - insertar un registro de Libro que tenga asignada una clave que exista en un registro del archivo de datos, pero asignada a un registro marcado como borrado.
          *        Validar que el registro se ha insertado en el archivo de Libros y que la clave se ha creado en el arbol correctamente (con los campos valor y posicion
          *        correctos). Validar que devuelve true.
+         *          ok
          *      - insertar un registro de Libro que tenga asignada una clave que exista en un registro del archivo de datos, asignada a un registro util (no borrado).
          *        Validar que no se realiza ninguna escritura en ninguno de los dos ficheros. Validar que devuelve false.
+         *          ok
          *  - borrar. Situaciones:
          *      - borrar un registro de Libro que exista. Validar que en el archivo de registros de Libros el registro se ha aniadido a la lista de huecos. Validar que
          *        en el archivo del arbol B se ha eliminado la clave de ese registro. Validar que devuelve true.
+         *          ok
          *      - borrar un registro de Libro cuya clave no exista en ningun registro del archivo de datos (ni si quiera en los registros marcados como borrados).
          *        Validar que devuelve false y que no se ha modificado nada en ninguno de los dos archivos.
+         *          ok
          *      - borrar un registro de Libro cuya clave exista en algun registro del archivo de datos, pero asignada a un registro marcado como borrado
          *        Validar que devuelve false y que no se ha modificado nada en ninguno de los dos archivos.
+         *          ok
          *  - cerrar. Llamar a este metodo y comprobar que si posteriormente se intenta realizar alguna otra operacion (buscar, insertar, borrar) salta la excepcion IOException (se debera capturar)
          *
          *  Toda esta funcionalidad debera validarse tambien para un objeto de tipo GestorTabla que maneje registros de tipo RegistroBiblioteca.
