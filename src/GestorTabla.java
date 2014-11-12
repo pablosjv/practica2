@@ -124,27 +124,21 @@ public class GestorTabla extends Object{
     * @throws IOException Si durante la ejecucion del metodo se produce un error de entrada/salida.
    */
 	public boolean insertar(RegistroNumReg registro)throws IOException{
-        /*
-		 * Obtenemos el numero de registro del registro (parametro)
-		 * Creamos una clave con ese valor para buscarlo en el árbol para saber si ya está (y en ese caso no hacer nada)
-		 * Si no está guardamos el registro en nuestra prop registro para escribirlo en el archivoLH
-		 * Obtenemos la posición de donde lo hemos insertado y creamos una nueva clave con esa posición y el valor de la clave para insertarlo en el arbol
-		 */
+
         boolean resul = false;
-        //if(!arbol.vacio())
-        //{
-            int clave = registro.getNumReg();
-            Clave miClave = new Clave(clave);
-            int posClave = arbol.buscar(miClave);
-            if  (posClave==-1)
-            {
-                archivoLH.setRegistro(registro);
-                int pos = this.archivoLH.escribirRegistro();
-                Clave clave_a_arbol = new Clave(clave,pos);
-                arbol.insertar(clave_a_arbol);
-                resul = true;
-            }
-        //}
+    
+        int clave = registro.getNumReg();
+        Clave miClave = new Clave(clave);
+        int posClave = arbol.buscar(miClave);
+        if  (posClave==-1)
+        {
+            archivoLH.setRegistro(registro);
+            int pos = this.archivoLH.escribirRegistro();
+            Clave clave_a_arbol = new Clave(clave,pos);
+            arbol.insertar(clave_a_arbol);
+            resul = true;
+        }
+
         return resul;
 	}
 
