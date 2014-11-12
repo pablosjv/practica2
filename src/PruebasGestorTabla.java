@@ -110,7 +110,7 @@ public class PruebasGestorTabla extends Object{
 
         //Prueba busqueda de registro util.
         System.out.println("**************************Buscando registro 50************************");
-        RegistroNumReg nombre = gt.buscar(4);
+        RegistroNumReg nombre = gt.buscar(50);
         System.out.println(nombre);
 
         System.out.println("**********Volcado antes de borrar***********");

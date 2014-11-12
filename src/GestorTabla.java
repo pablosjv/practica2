@@ -87,12 +87,12 @@ public class GestorTabla extends Object{
             int resul = arbol.buscar(miClave);
             if  (resul!=-1)
             {
-                arbol.leerRegistro(resul);
-                RG = (RegistroNumReg) arbol.getRegistro();
+                archivoLH.leerRegistro(resul);
+                RG = (RegistroNumReg) archivoLH.getRegistro();
             }
         }
 
-        return RG;
+        return   RG;
 
     }
 
