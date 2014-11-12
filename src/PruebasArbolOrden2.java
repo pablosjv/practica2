@@ -6,6 +6,7 @@ public class PruebasArbolOrden2 {
 		public PruebasArbolOrden2(){
 	      Clave clave1= null;
 			try{
+                
 				ArbolB arbol = new ArbolB("arbolOrden2.txt", 2);
 				System.out.println("**********************VAMOS A INSERTAR 3 4 12 13*********************");
 				clave1 = new Clave(3, 1);
