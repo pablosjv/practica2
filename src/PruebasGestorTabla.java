@@ -149,6 +149,12 @@ public class PruebasGestorTabla extends Object{
         gt.arbol.volcar();
         System.out.println("\n");
 
+        archivoLibro.cerrarArchivo();
+
+        gt.cerrar();
+        gt.insertar(registro);
+
+
 
         /**
          * Deberan probarse los siguientes metodos en las situaciones indicadas
@@ -201,7 +207,7 @@ public class PruebasGestorTabla extends Object{
          *        Validar que devuelve false y que no se ha modificado nada en ninguno de los dos archivos.
          *          ok
          *  - cerrar. Llamar a este metodo y comprobar que si posteriormente se intenta realizar alguna otra operacion (buscar, insertar, borrar) salta la excepcion IOException (se debera capturar)
-         *
+         *      ok
          *  Toda esta funcionalidad debera validarse tambien para un objeto de tipo GestorTabla que maneje registros de tipo RegistroBiblioteca.
          *
          */
