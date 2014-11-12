@@ -83,7 +83,6 @@ public class PruebasGestorTabla extends Object{
         System.out.println("\n");
 
         //Prueba de inserccion de registro
-        //Registro 2
         registro = (RegistroLibro)archivoLibro.getRegistro();
         registro.setControl(RegistroLH.REGISTRO_OCUPADO);
         registro.setNumReg(5);
@@ -98,7 +97,6 @@ public class PruebasGestorTabla extends Object{
 
 
         //Prueba de inserccion de registro en una posicion borrada
-        //Registro 3
         registro = (RegistroLibro)archivoLibro.getRegistro();
         registro.setControl(RegistroLH.REGISTRO_OCUPADO);
         registro.setNumReg(4);
@@ -111,7 +109,6 @@ public class PruebasGestorTabla extends Object{
         System.out.println("\n");
 
         //Prueba de inserccion de registro en una posicion existente
-        //Registro 4
         registro = (RegistroLibro)archivoLibro.getRegistro();
         registro.setControl(RegistroLH.REGISTRO_OCUPADO);
         registro.setNumReg(4);

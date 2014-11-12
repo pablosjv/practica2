@@ -25,10 +25,9 @@ public class GestorTabla extends Object{
     */		
 	public GestorTabla(String nombre, int orden, RegistroNumReg registro) throws FileNotFoundException, IOException{
 
-        //Esto es porque hay que inicializar un arbol, y se le pasa el orden como parametro
         arbol = new ArbolB (nombre+".btree",orden);
         archivoLH = new ArchivoLH(registro, nombre+".dat");
-        //metodo que te devuelve la dir del registro, leemos registro para sacarlo (antes mirar si -1 por si no existe)
+
     }
 	
   /** 
@@ -44,7 +43,6 @@ public class GestorTabla extends Object{
     */		
 	public GestorTabla(String nombre, String modo, RegistroNumReg registro) throws FileNotFoundException, IOException{
 
-        //Esto es porque hay que inicializar un arbol, y se le pasa el orden como parametro
         arbol = new ArbolB (nombre+".btree",modo);
         archivoLH = new ArchivoLH(registro, nombre+".dat", modo);
     }
@@ -75,10 +73,6 @@ public class GestorTabla extends Object{
      */
 
 	public RegistroNumReg buscar(int valorClave) throws IOException{
-        //valorClave = numReg
-        //Tengo que asociar un registro con numReg=valorClave
-        //si uso el metodo buscar(Clave) este me devuelve la posicion del registro con esa clave.
-        //Lo que me piden es buscar valorClave que estará en el arbol
 
         RegistroNumReg RG = null;
         if(!arbol.vacio())
