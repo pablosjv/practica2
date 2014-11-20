@@ -25,6 +25,7 @@ public class GestorTablaExtendido extends GestorTabla{
     * @throws IOException Si durante la creacion de alguno de los dos ficheros se produce un error de entrada/salida.
     */		
 	public GestorTablaExtendido(String nombre, int orden, RegistroNumReg registro) throws FileNotFoundException, IOException{
+        super(nombre, orden, registro);
 	 }
 	
   /** 
@@ -38,6 +39,7 @@ public class GestorTablaExtendido extends GestorTabla{
     * @throws IOException Si durante la apertura de alguno de los dos ficheros se produce un error de entrada/salida.
     */			
 	public GestorTablaExtendido(String nombre, String modo, RegistroNumReg registro) throws FileNotFoundException, IOException{
+        super(nombre,modo,registro);
 	 }	
 	
 	
@@ -46,7 +48,21 @@ public class GestorTablaExtendido extends GestorTabla{
     * @throws IOException Si durante la ejecucion del metodo se produce un error de entrada/salida.
     */	
 	public void listar()throws IOException{
+        listar(super.getArbolB().getPosicionRaiz());
+
 	}
+
+    private void listar (int posicion)throws IOException{
+        if (posicion!=-1){
+            Pagina p = super.getArbolB().leerRegistroLH(posicion);
+            for ( int i = 0; i< p.getNumeroDeClaves();i++){
+                listar(p.getHijo(i));
+                int j = p.getClave(i).getValor();
+                System.out.println(super.buscar(j).toString());
+            }
+            listar ( p.getHijo(p.getNumeroDeClaves()));
+        }
+    }
 
 
 	 /** Vuelca por salida estandar el contenido de los registros del archivo de datos cuyo campo numReg este entre clave1 y clave2 
