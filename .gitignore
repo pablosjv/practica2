@@ -33,3 +33,5 @@ hs_err_pid*
 /gestorPrueba.btree
 /.idea/
 /TGIP2.iml
+/.DS_Store
+/P2.iml
