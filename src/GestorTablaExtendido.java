@@ -72,7 +72,31 @@ public class GestorTablaExtendido extends GestorTabla{
      * @throws IOException Si durante la ejecucion del metodo se produce un error de entrada/salida.
      */	
         public void listar(int valorClave1, int valorClave2)throws IOException{
-        }
-		
+            Clave c1 = new Clave (valorClave1, 0);
 
+        }
+
+        private void listar (int posicion, Clave c1,  Clave c2)throws IOException{
+            if (posicion!=-1){
+                Pagina p = super.getArbolB().leerRegistroLH(posicion);
+                int posC1 = p.buscarDescendiente(c1);
+                int posC2 = p.buscarDescendiente(c2);
+
+                int esClave1 = p.getClave(posC1).comparaCon(c1);
+                int esClave2 = p.getClave(posC2).comparaCon(c2);
+
+                boolean estamosEnRangoClave1 = esClave1 >= 0;
+                boolean estamosEnRangoClave2 = esClave2 <= 0;
+
+                if (estamosEnRangoClave1 && estamosEnRangoClave2){
+                    
+                }
+                for ( int i = 0; i< p.getNumeroDeClaves();i++){
+                    listar(p.getHijo(i));
+                    int j = p.getClave(i).getValor();
+                    System.out.println(super.buscar(j).toString());
+                }
+                listar ( p.getHijo(p.getNumeroDeClaves()));
+            }
+        }
 }
