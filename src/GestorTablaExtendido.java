@@ -72,13 +72,44 @@ public class GestorTablaExtendido extends GestorTabla{
      * @throws IOException Si durante la ejecucion del metodo se produce un error de entrada/salida.
      */	
         public void listar(int valorClave1, int valorClave2)throws IOException{
-            Clave c1 = new Clave (valorClave1, 0);
+            if(!this.getArbolB().vacio()){
+                Clave c1 = new Clave (valorClave1);
+                Clave c2 = new Clave (valorClave2);
+                int pos = this.getArbolB().getPosicionRaiz();
+                listar(pos, c1, c2);
+            }
+
+
 
         }
+    //Hacer el metodo del ultimo antecesor comun para acotar en un subarbol
 
         private void listar (int posicion, Clave c1,  Clave c2)throws IOException{
+
             if (posicion!=-1){
                 Pagina p = super.getArbolB().leerRegistroLH(posicion);
+                int posClave = p.buscarDescendiente(c1);
+                if (posClave < p.getNumeroDeClaves()){
+                    if(p.getClave(posClave).comparaCon(c1)!= 0)
+
+                        listar(p.getHijo(posClave),c1,c2);
+                }
+                else listar(p.getHijo(posClave),c1,c2); //agrupar en un if?
+
+                for (int i = 0; i <= p.getNumeroDeClaves(); i++){
+                //no se si es asi el rango
+
+                    if (p.getClave(i).comparaCon(c1)>=0 && p.getClave(i).comparaCon(c2)<=0){
+
+                        if (p.getClave(i).comparaCon(c1) == 0) listar(i+1,c1,c2);
+                        else listar(i, c1, c2);
+
+                        if ( i<p.getNumeroDeClaves())
+                            System.out.print(super.buscar(i).toString());
+                    }
+                }
+
+                /*
                 int posC1 = p.buscarDescendiente(c1);
                 int posC2 = p.buscarDescendiente(c2);
 
@@ -97,8 +128,10 @@ public class GestorTablaExtendido extends GestorTabla{
                     System.out.println(super.buscar(j).toString());
                 }
                 listar ( p.getHijo(p.getNumeroDeClaves()));
+                */
             }
         }
+    /*
     private void buscarC1 (int posicion, Clave c1, Clave c2)throws IOException{
 
         if (posicion!=-1){
@@ -134,4 +167,5 @@ public class GestorTablaExtendido extends GestorTabla{
             listar ( p.getHijo(p.getNumeroDeClaves()));
         }
     }
+    */
 }
