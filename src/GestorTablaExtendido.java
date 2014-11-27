@@ -99,4 +99,39 @@ public class GestorTablaExtendido extends GestorTabla{
                 listar ( p.getHijo(p.getNumeroDeClaves()));
             }
         }
+    private void buscarC1 (int posicion, Clave c1, Clave c2)throws IOException{
+
+        if (posicion!=-1){
+            Pagina p = super.getArbolB().leerRegistroLH(posicion);
+            int posC1 = p.buscarDescendiente(c1);
+
+            boolean estamosEnRangoClave1 = p.getClave(posC1).comparaCon(c1) >= 0;
+
+
+        }
+        else listarHastaC2();
+    }
+    private void listarHastaC2 (int posicion, Clave c2)throws IOException{
+        if (posicion!=-1){
+            Pagina p = super.getArbolB().leerRegistroLH(posicion);
+            int posC1 = p.buscarDescendiente(c1);
+            int posC2 = p.buscarDescendiente(c2);
+
+            int esClave1 = p.getClave(posC1).comparaCon(c1);
+            int esClave2 = p.getClave(posC2).comparaCon(c2);
+
+            boolean estamosEnRangoClave1 = esClave1 >= 0;
+            boolean estamosEnRangoClave2 = esClave2 <= 0;
+
+            if (estamosEnRangoClave1 && estamosEnRangoClave2){
+
+            }
+            for ( int i = 0; i< p.getNumeroDeClaves();i++){
+                listar(p.getHijo(i));
+                int j = p.getClave(i).getValor();
+                System.out.println(super.buscar(j).toString());
+            }
+            listar ( p.getHijo(p.getNumeroDeClaves()));
+        }
+    }
 }
