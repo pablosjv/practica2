@@ -75,14 +75,27 @@ public class GestorTablaExtendido extends GestorTabla{
             if(!this.getArbolB().vacio()){
                 Clave c1 = new Clave (valorClave1);
                 Clave c2 = new Clave (valorClave2);
-                int pos = this.getArbolB().getPosicionRaiz();
-                listar(pos, c1, c2);
+                listar(ultimoAntecesorComun(c1, c2), c1, c2);
             }
 
 
 
         }
     //Hacer el metodo del ultimo antecesor comun para acotar en un subarbol
+
+        private int ultimoAntecesorComun(Clave c1, Clave c2 )throws  IOException{
+            int pos = 0;
+            if(!this.getArbolB().vacio()){
+                Pagina p = this.getArbolB().leerRegistroLH(this.getArbolB().getPosicionRaiz());
+                while (p.buscarDescendiente(c1)== p.buscarDescendiente(c2)) {
+                    pos = p.buscarDescendiente(c1);
+                    p = this.getArbolB().leerRegistroLH(p.getHijo(pos));
+                }
+            }
+            return pos;
+
+
+        }
 
         private void listar (int posicion, Clave c1,  Clave c2)throws IOException{
 
