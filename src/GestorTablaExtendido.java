@@ -72,30 +72,35 @@ public class GestorTablaExtendido extends GestorTabla{
      * @throws IOException Si durante la ejecucion del metodo se produce un error de entrada/salida.
      */	
         public void listar(int valorClave1, int valorClave2)throws IOException{
+
             if(!this.getArbolB().vacio()){
                 Clave c1 = new Clave (valorClave1);
                 Clave c2 = new Clave (valorClave2);
-                listar(ultimoAntecesorComun(c1, c2), c1, c2);
+                int pos = this.getArbolB().getPosicionRaiz();
+                listar(pos, c1, c2);
             }
 
 
 
         }
     //Hacer el metodo del ultimo antecesor comun para acotar en un subarbol
-
+        /*
         private int ultimoAntecesorComun(Clave c1, Clave c2 )throws  IOException{
             int pos = 0;
             if(!this.getArbolB().vacio()){
+                pos = this.getArbolB().getPosicionRaiz();
                 Pagina p = this.getArbolB().leerRegistroLH(this.getArbolB().getPosicionRaiz());
                 while (p.buscarDescendiente(c1)== p.buscarDescendiente(c2)) {
-                    pos = p.buscarDescendiente(c1);
+                    pos = p.getHijo(pos);
                     p = this.getArbolB().leerRegistroLH(p.getHijo(pos));
                 }
             }
+            System.out.print("HOLIIIIII " + pos);
             return pos;
 
 
         }
+        */
 
         private void listar (int posicion, Clave c1,  Clave c2)throws IOException{
 
@@ -115,10 +120,11 @@ public class GestorTablaExtendido extends GestorTabla{
                     if (p.getClave(i).comparaCon(c1)>=0 && p.getClave(i).comparaCon(c2)<=0){
 
                         if (p.getClave(i).comparaCon(c1) == 0) listar(i+1,c1,c2);
-                        else listar(i, c1, c2);
+                        else listar(p.getHijo(i), c1, c2);
 
-                        if ( i<p.getNumeroDeClaves())
-                            System.out.print(super.buscar(i).toString());
+                        if (i < p.getNumeroDeClaves()){
+                            System.out.print(p.getClave(i).getValor() + " ");
+                        }
                     }
                 }
 
