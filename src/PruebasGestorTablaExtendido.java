@@ -209,7 +209,7 @@ public class PruebasGestorTablaExtendido extends Object{
 				 
 				 System.out.println("--------------------------------------------------------------------");
 				 System.out.println("15. Listar acotado entre 140 y 190");
-				 System.out.println("   Deben aparecer los datos de los registros 120, 130, 140, 150, 160, 170, 180 y 190");
+				 System.out.println("   Deben aparecer los datos de los registros 140, 150, 160, 170, 180 y 190");
 				 System.out.println("--------------------------------------------------------------------");
 				 gestor.listar(140,190);
 				 System.out.println("--------------------------------------------------------------------");

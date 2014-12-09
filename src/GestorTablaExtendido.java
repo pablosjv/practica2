@@ -95,14 +95,12 @@ public class GestorTablaExtendido extends GestorTabla{
                     listar(p.getHijo(posClave),c1,c2);
 
             }
-            else listar(p.getHijo(posClave),c1,c2); //agrupar en un if?
+            else listar(p.getHijo(posClave),c1,c2);
 
             for (int i = 0; i < p.getNumeroDeClaves(); i++){
                 if (i< p.getNumeroDeClaves() && p.getClave(i).comparaCon(c1)>=0 && p.getClave(i).comparaCon(c2)<=0){
 
-                    //cambiar aqui lo que pollas haya que listar
                     System.out.println(super.buscar(p.getClave(i).getValor()).toString());
-                    //System.out.print(p.getClave(i).getValor() + " ");
 
                     if (p.getClave(i).comparaCon(c1) >= 0 ) listar(p.getHijo(i+1),c1,c2);
                     else if (p.getClave(i).comparaCon(c1) < 0 )listar(p.getHijo(i - 1), c1, c2);
