@@ -83,107 +83,35 @@ public class GestorTablaExtendido extends GestorTabla{
         System.out.println();
 
     }
-    //Hacer el metodo del ultimo antecesor comun para acotar en un subarbol
-            /*
-            private int ultimoAntecesorComun(Clave c1, Clave c2 )throws  IOException{
-                int pos = 0;
-                if(!this.getArbolB().vacio()){
-                    pos = this.getArbolB().getPosicionRaiz();
-                    Pagina p = this.getArbolB().leerRegistroLH(this.getArbolB().getPosicionRaiz());
-                    while (p.buscarDescendiente(c1)== p.buscarDescendiente(c2)) {
-                        pos = p.getHijo(pos);
-                        p = this.getArbolB().leerRegistroLH(p.getHijo(pos));
-                    }
-                }
-                System.out.print("HOLIIIIII " + pos);
-                return pos;
-
-    
-            }
-            */
 
     private void listar (int posicion, Clave c1,  Clave c2)throws IOException{
-
+        boolean[] listado;
         if (posicion!=-1){
             Pagina p = super.getArbolB().leerRegistroLH(posicion);
             int posClave = p.buscarDescendiente(c1);
-            if (posClave < p.getNumeroDeClaves()){
-                if(p.getClave(posClave).comparaCon(c1)!= 0)
+            if (posClave <= p.getNumeroDeClaves()){
+                if(p.getClave(posClave).comparaCon(c1) != 0)
 
                     listar(p.getHijo(posClave),c1,c2);
+
             }
             else listar(p.getHijo(posClave),c1,c2); //agrupar en un if?
 
             for (int i = 0; i < p.getNumeroDeClaves(); i++){
-                //no se si es asi el rango
-                //if (i<p.getNumeroDeClaves())
-                if (p.getClave(i).comparaCon(c1)>=0 && p.getClave(i).comparaCon(c2)<=0){
+                if (i< p.getNumeroDeClaves() && p.getClave(i).comparaCon(c1)>=0 && p.getClave(i).comparaCon(c2)<=0){
 
-                    if (p.getClave(i).comparaCon(c1) == 0) listar(p.getHijo(i+1),c1,c2);
-                    else listar(p.getHijo(i), c1, c2);
+                    //cambiar aqui lo que pollas haya que listar
+                    System.out.println(super.buscar(p.getClave(i).getValor()).toString());
+                    //System.out.print(p.getClave(i).getValor() + " ");
 
-                    System.out.print(p.getClave(i).getValor() + " ");
+                    if (p.getClave(i).comparaCon(c1) >= 0 ) listar(p.getHijo(i+1),c1,c2);
+                    else if (p.getClave(i).comparaCon(c1) < 0 )listar(p.getHijo(i - 1), c1, c2);
+
 
                 }
             }
 
-                    /*
-                    int posC1 = p.buscarDescendiente(c1);
-                    int posC2 = p.buscarDescendiente(c2);
-
-                    int esClave1 = p.getClave(posC1).comparaCon(c1);
-                    int esClave2 = p.getClave(posC2).comparaCon(c2);
-
-                    boolean estamosEnRangoClave1 = esClave1 >= 0;
-                    boolean estamosEnRangoClave2 = esClave2 <= 0;
-
-                    if (estamosEnRangoClave1 && estamosEnRangoClave2){
-
-                    }
-                    for ( int i = 0; i< p.getNumeroDeClaves();i++){
-                        listar(p.getHijo(i));
-                        int j = p.getClave(i).getValor();
-                        System.out.println(super.buscar(j).toString());
-                    }
-                    listar ( p.getHijo(p.getNumeroDeClaves()));
-                    */
         }
     }
-        /*
-        private void buscarC1 (int posicion, Clave c1, Clave c2)throws IOException{
 
-            if (posicion!=-1){
-                Pagina p = super.getArbolB().leerRegistroLH(posicion);
-                int posC1 = p.buscarDescendiente(c1);
-
-                boolean estamosEnRangoClave1 = p.getClave(posC1).comparaCon(c1) >= 0;
-
-
-            }
-            else listarHastaC2();
-        }
-        private void listarHastaC2 (int posicion, Clave c2)throws IOException{
-            if (posicion!=-1){
-                Pagina p = super.getArbolB().leerRegistroLH(posicion);
-                int posC1 = p.buscarDescendiente(c1);
-                int posC2 = p.buscarDescendiente(c2);
-
-                int esClave1 = p.getClave(posC1).comparaCon(c1);
-                int esClave2 = p.getClave(posC2).comparaCon(c2);
-
-                boolean estamosEnRangoClave1 = esClave1 >= 0;
-                boolean estamosEnRangoClave2 = esClave2 <= 0;
-
-                if (estamosEnRangoClave1 && estamosEnRangoClave2){
-
-                }
-                for ( int i = 0; i< p.getNumeroDeClaves();i++){
-                    listar(p.getHijo(i));
-                    int j = p.getClave(i).getValor();
-                    System.out.println(super.buscar(j).toString());
-                }
-                listar ( p.getHijo(p.getNumeroDeClaves()));
-            }
-        }
-        */
 }
